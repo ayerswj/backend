@@ -1,0 +1,11 @@
+[{
+	"model": "api.Question",
+	"pk": 1,
+	"fields": {
+		"content": "What is the Heisman trophy?",
+		"correct": "Awarded to the best college football player of the year",
+		"incorrect": ["The best wide receiver in peewee award",
+		"The greatest coach of the decade award",
+		"The most oustanding kicker ward"]
+	}
+}]
