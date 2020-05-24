@@ -17,29 +17,24 @@ from django.contrib import admin
 from django.urls import include, path
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
+
 from rest_framework import routers
+
 from api import views
-from rest_framework_extensions.routers import NestedRouterMixin
 from . import settings
 
-class NestedDefaultRouter(NestedRouterMixin, routers.DefaultRouter):
-    pass
 
-v1_router = NestedDefaultRouter()
+v1_router = routers.DefaultRouter()
 v1_router.register(r'profile', views.ProfileViewSet)
-questions = v1_router.register(r'trivia', views.TriviaViewSet)
-questions.register(
-    r'questions',
-    views.QuestionViewSet,
-    basename="questions",
-    parents_query_lookups=['category', 'type']
-)
+v1_router.register(r'trivia', views.TriviaViewSet)
+v1_router.register(r'question', views.QuestionViewSet)
+
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path('docs/', TemplateView.as_view(template_name="index.html")),
-    path('inside/', admin.site.urls),
+    path('admin/', admin.site.urls),
     path('api/v1/', include(v1_router.urls)),
     path('api/auth/', include('djoser.urls')),
     path('api/auth/', include('djoser.urls.authtoken'))

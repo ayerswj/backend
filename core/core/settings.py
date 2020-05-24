@@ -28,7 +28,6 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 REST_FRAMEWORK = {
-#    'DEFAULT_FILTER_BACKENDS': ("django_filters.rest_framework.DjangoFilterBackend"),
      'DEFAULT_AUTHENTICATION_CLASSES': (
          'rest_framework.authentication.TokenAuthentication',
          'rest_framework.authentication.SessionAuthentication'
@@ -52,8 +51,9 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'api',
-    'djoser',
-#    'django_filters'
+    'djoser'
+    'django_mysql',
+    'django_filters'
 ]
 
 MIDDLEWARE = [
@@ -87,28 +87,26 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 # For Deployment MySQL database
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'default',
-#         'USER': 'klingons',
-#         'PASSWORD': 'Vitamin32',
-#         'HOST': 'klingons.mysql.pythonanywhere-services.com',
-#         'PORT': '429543',
-#     }
-# }
+DATABASES = {
+     'default': {
+         'ENGINE': 'django.db.backends.mysql',
+         'NAME': 'klingons$default',
+         'USER': 'klingons',
+         'PASSWORD': 'Vitamin32',
+         'HOST': 'klingons.mysql.pythonanywhere-services.com'
+     }
+ }
 
 # For Development SQLite database
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 
 
 # Password validation
@@ -160,6 +158,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+# Cors-Headers
+# https://pypi.org/project/django-cors-headers/
 CORS_ORIGIN_ALLOW_ALL = True
 
 # Static files (CSS, JavaScript, Images)

@@ -18,6 +18,8 @@ tags:
     description: Everything about a users Profile
   - name: user
     description: Manage user auth values
+  - name: chat
+    description: Manages messaging sessions
     externalDocs:
       description: Djoser docs
       url: 'https://djoser.readthedocs.io/en/latest/base_endpoints.html'
@@ -28,6 +30,416 @@ components:
       in: header       # can be "header", "query" or "cookie"
       name: Authorization token  # name of the header, query parameter or cookie
 paths:
+  /api/v1/question/:
+    get:
+      tags:
+      - questions
+      operationId: listQuestions
+      description: ''
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - name: type
+        required: false
+        in: query
+        description: type
+        schema:
+          type: string
+      - name: category
+        required: false
+        in: query
+        description: category
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                  previous:
+                    type: string
+                    nullable: true
+                  results:
+                    type: array
+                    items:
+                      properties:
+                        id:
+                          type: integer
+                          readOnly: true
+                        content:
+                          type: string
+                          maxLength: 200
+                        correct:
+                          type: string
+                          maxLength: 200
+                        incorrect:
+                          type: string
+                          maxLength: 200
+                        category:
+                          enum:
+                          - '1'
+                          - '2'
+                          - '3'
+                          - '4'
+                        type:
+                          enum:
+                          - '1'
+                          - '2'
+          description: ''
+    post:
+      tags:
+      - questions
+      operationId: createQuestion
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema: &id007
+              properties:
+                content:
+                  type: string
+                  maxLength: 200
+                correct:
+                  type: string
+                  maxLength: 200
+                incorrect:
+                  type: string
+                  maxLength: 200
+                category:
+                  enum:
+                  - '1'
+                  - '2'
+                  - '3'
+                  - '4'
+                type:
+                  enum:
+                  - '1'
+                  - '2'
+          application/x-www-form-urlencoded:
+            schema: *id007
+          multipart/form-data:
+            schema: *id007
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: integer
+                    readOnly: true
+                  content:
+                    type: string
+                    maxLength: 200
+                  correct:
+                    type: string
+                    maxLength: 200
+                  incorrect:
+                    type: string
+                    maxLength: 200
+                  category:
+                    enum:
+                    - '1'
+                    - '2'
+                    - '3'
+                    - '4'
+                  type:
+                    enum:
+                    - '1'
+                    - '2'
+          description: ''
+  /api/v1/question/{id}/:
+    get:
+      tags:
+      - questions
+      operationId: retrieveQuestion
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this question.
+        schema:
+          type: string
+      - name: type
+        required: false
+        in: query
+        description: type
+        schema:
+          type: string
+      - name: category
+        required: false
+        in: query
+        description: category
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: integer
+                    readOnly: true
+                  content:
+                    type: string
+                    maxLength: 200
+                  correct:
+                    type: string
+                    maxLength: 200
+                  incorrect:
+                    type: string
+                    maxLength: 200
+                  category:
+                    enum:
+                    - '1'
+                    - '2'
+                    - '3'
+                    - '4'
+                  type:
+                    enum:
+                    - '1'
+                    - '2'
+          description: ''
+    put:
+      tags:
+      - questions
+      operationId: updateQuestion
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this question.
+        schema:
+          type: string
+      - name: type
+        required: false
+        in: query
+        description: type
+        schema:
+          type: string
+      - name: category
+        required: false
+        in: query
+        description: category
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema: &id008
+              properties:
+                content:
+                  type: string
+                  maxLength: 200
+                correct:
+                  type: string
+                  maxLength: 200
+                incorrect:
+                  type: string
+                  maxLength: 200
+                category:
+                  enum:
+                  - '1'
+                  - '2'
+                  - '3'
+                  - '4'
+                type:
+                  enum:
+                  - '1'
+                  - '2'
+          application/x-www-form-urlencoded:
+            schema: *id008
+          multipart/form-data:
+            schema: *id008
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: integer
+                    readOnly: true
+                  content:
+                    type: string
+                    maxLength: 200
+                  correct:
+                    type: string
+                    maxLength: 200
+                  incorrect:
+                    type: string
+                    maxLength: 200
+                  category:
+                    enum:
+                    - '1'
+                    - '2'
+                    - '3'
+                    - '4'
+                  type:
+                    enum:
+                    - '1'
+                    - '2'
+          description: ''
+    patch:
+      tags:
+      - questions
+      operationId: partial_updateQuestion
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this question.
+        schema:
+          type: string
+      - name: type
+        required: false
+        in: query
+        description: type
+        schema:
+          type: string
+      - name: category
+        required: false
+        in: query
+        description: category
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema: &id009
+              properties:
+                content:
+                  type: string
+                  maxLength: 200
+                correct:
+                  type: string
+                  maxLength: 200
+                incorrect:
+                  type: string
+                  maxLength: 200
+                category:
+                  enum:
+                  - '1'
+                  - '2'
+                  - '3'
+                  - '4'
+                type:
+                  enum:
+                  - '1'
+                  - '2'
+          application/x-www-form-urlencoded:
+            schema: *id009
+          multipart/form-data:
+            schema: *id009
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: integer
+                    readOnly: true
+                  content:
+                    type: string
+                    maxLength: 200
+                  correct:
+                    type: string
+                    maxLength: 200
+                  incorrect:
+                    type: string
+                    maxLength: 200
+                  category:
+                    enum:
+                    - '1'
+                    - '2'
+                    - '3'
+                    - '4'
+                  type:
+                    enum:
+                    - '1'
+                    - '2'
+          description: ''
+    delete:
+      tags:
+      - questions
+      operationId: destroyQuestion
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this question.
+        schema:
+          type: string
+      - name: type
+        required: false
+        in: query
+        description: type
+        schema:
+          type: string
+      - name: category
+        required: false
+        in: query
+        description: category
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
   /api/v1/profile/{id}/:
     get:
       tags:
@@ -446,74 +858,6 @@ paths:
           type: string
       responses:
         '204':
-          description: ''
-  /api/v1/trivia/{parent_lookup_type}/questions/:
-    get:
-      tags:
-      - questions
-      operationId: listQuestions
-      description: API endpoint that allows Questions to be created and retrieved
-      parameters:
-      - name: parent_lookup_type
-        in: path
-        required: true
-        description: ''
-        schema:
-          type: string
-      - name: limit
-        required: false
-        in: query
-        description: Number of results to return per page.
-        schema:
-          type: integer
-      - name: offset
-        required: false
-        in: query
-        description: The initial index from which to return the results.
-        schema:
-          type: integer
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  count:
-                    type: integer
-                    example: 123
-                  next:
-                    type: string
-                    nullable: true
-                  previous:
-                    type: string
-                    nullable: true
-                  results:
-                    type: array
-                    items:
-                      properties:
-                        id:
-                          type: integer
-                          readOnly: true
-                        content:
-                          type: string
-                          maxLength: 200
-                        correct:
-                          type: string
-                          maxLength: 200
-                        incorrect:
-                          type: string
-                          maxLength: 200
-                        category:
-                          enum:
-                          - '1'
-                          - '2'
-                          - '3'
-                          - '4'
-                        type:
-                          enum:
-                          - '1'
-                          - '2'
           description: ''
   /api/auth/users/:
     get:
